@@ -1,0 +1,52 @@
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: check-case-conflict
+      - id: check-illegal-windows-names
+      - id: check-merge-conflict
+      - id: check-toml
+      - id: destroyed-symlinks
+      - id: detect-aws-credentials
+        args: [--allow-missing-credentials]
+      - id: detect-private-key
+      - id: end-of-file-fixer
+      - id: fix-byte-order-marker
+      - id: mixed-line-ending
+        args: [--fix=lf]
+        exclude: (^|/)\.gitignore$
+      - id: name-tests-test
+        args: [--pytest-test-first]
+      - id: trailing-whitespace
+        exclude: (^|/)\.gitignore$
+  - repo: https://github.com/abravalheri/validate-pyproject
+    rev: v0.24.1
+    hooks:
+      - id: validate-pyproject
+  - repo: https://github.com/bwhmather/ssort
+    rev: 0.15.0
+    hooks:
+      - id: ssort
+  - repo: local
+    hooks:
+      - id: black
+        name: black
+        entry: black
+        language: system
+        types_or: [python, pyi]
+        require_serial: true
+      - id: ruff
+        name: ruff
+        entry: ruff check
+        language: system
+        types_or: [cython, pyi, python]
+        require_serial: true
+      - id: mypy
+        name: mypy
+        entry: mypy
+        language: system
+        exclude: (^|/)test.*\.py$
+        types_or: [python, pyi]
+        require_serial: true
