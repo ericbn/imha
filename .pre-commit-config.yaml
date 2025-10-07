@@ -19,6 +19,7 @@ repos:
         exclude: (^|/)\.gitignore$
       - id: name-tests-test
         args: [--pytest-test-first]
+        exclude: /smoke_test\.py$
       - id: trailing-whitespace
         exclude: (^|/)\.gitignore$
   - repo: https://github.com/abravalheri/validate-pyproject
@@ -47,6 +48,6 @@ repos:
         name: mypy
         entry: mypy
         language: system
-        exclude: (^|/)test.*\.py$
+        exclude: /test.*\.py$
         types_or: [python, pyi]
         require_serial: true

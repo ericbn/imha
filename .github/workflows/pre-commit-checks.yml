@@ -1,0 +1,30 @@
+name: Pre-commit checks
+
+on: push
+
+jobs:
+  pre-commit-checks:
+    name: Checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Python virtualenv
+        uses: ./.github/action/venv-install
+        with:
+          python-version: '3.10'
+      - name: Add flake8 annotator
+        uses: pr-annotators/flake8-pr-annotator@v1.0.0
+      - name: Add mypy annotator
+        uses: pr-annotators/mypy-pr-annotator@v1.0.0
+      - name: Get mypy version
+        id: mypy-version
+        run: |
+          echo "MYPY_VERSION=$(mypy --version | awk '{print $2}')" >> $GITHUB_OUTPUT
+      - name: Cache mypy
+        uses: actions/cache@v4
+        with:
+          path: .mypy_cache
+          key: mypy-cache-${{ steps.mypy-version.outputs.MYPY_VERSION }}-${{ github.sha }}
+          restore-keys: mypy-cache-${{ steps.mypy-version.outputs.MYPY_VERSION }}-
+      - name: Run pre-commit
+        uses: pre-commit/action@v3.0.1
