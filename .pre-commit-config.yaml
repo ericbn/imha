@@ -48,6 +48,5 @@ repos:
         name: mypy
         entry: mypy
         language: system
-        exclude: /test.*\.py$
         types_or: [python, pyi]
         require_serial: true

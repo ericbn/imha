@@ -1,9 +1,15 @@
+from __future__ import annotations
+
 from pathlib import Path
+from typing import TYPE_CHECKING
 
 import pytest
 from PIL import Image
 
 import imha
+
+if TYPE_CHECKING:
+    from collections.abc import Callable
 
 FUNC_PARAMS = [
     pytest.param(imha.average_hash, id="average_hash"),
@@ -13,12 +19,14 @@ FUNC_PARAMS = [
 
 
 @pytest.fixture
-def image():
+def image() -> Image.Image:
     return Image.open(Path(__file__).parent / "data" / "imagehash.webp")
 
 
 @pytest.mark.parametrize("func", FUNC_PARAMS)
-def test_hash_function(func, image):
+def test_hash_function(
+    func: Callable[[Image.Image], imha.Hash], image: Image.Image
+) -> None:
     hash1 = func(image)
     image2 = image.rotate(-1)
     hash2 = func(image2)
@@ -32,6 +40,10 @@ def test_hash_function(func, image):
 
 @pytest.mark.parametrize("size", range(-1, 1))
 @pytest.mark.parametrize("func", FUNC_PARAMS)
-def test_hash_function_size(func, image, size):
+def test_hash_function_size(
+    func: Callable[[Image.Image, tuple[int, int]], imha.Hash],
+    image: Image.Image,
+    size: int,
+) -> None:
     with pytest.raises(ValueError, match="height and width must be > 0"):
         func(image, (size, size))

@@ -1,9 +1,11 @@
+from typing import Any
+
 import pytest
 
 import imha
 
 
-def test_hash_128_8():
+def test_hash_128_8() -> None:
     h = imha.Hash(128, 8)
     assert h == imha.Hash(128, 8)
     assert h.bin() == "10000000"
@@ -17,7 +19,7 @@ def test_hash_128_8():
     assert str(h) == h.hex()
 
 
-def test_hash_1_16():
+def test_hash_1_16() -> None:
     h = imha.Hash(1, 16)
     assert h == imha.Hash(1, 16)
     assert h.bin() == "0000000000000001"
@@ -31,7 +33,7 @@ def test_hash_1_16():
     assert str(h) == h.hex()
 
 
-def test_hash_16777214_24():
+def test_hash_16777214_24() -> None:
     h = imha.Hash(16777214, 24)
     assert h == imha.Hash(16777214, 24)
     assert h.bin() == "111111111111111111111110"
@@ -45,7 +47,7 @@ def test_hash_16777214_24():
     assert str(h) == h.hex()
 
 
-def test_hash_0_32():
+def test_hash_0_32() -> None:
     h = imha.Hash(0, 32)
     assert h == imha.Hash(0, 32)
     assert h.bin() == "0" * 32
@@ -59,7 +61,7 @@ def test_hash_0_32():
     assert str(h) == h.hex()
 
 
-def test_hash_4398046511103_42():
+def test_hash_4398046511103_42() -> None:
     h = imha.Hash(4398046511103, 42)
     assert h == imha.Hash(4398046511103, 42)
     assert h.bin() == "1" * 42
@@ -73,7 +75,7 @@ def test_hash_4398046511103_42():
     assert str(h) == h.hex()
 
 
-def test_hash_18369614221190020847_64():
+def test_hash_18369614221190020847_64() -> None:
     h = imha.Hash(18369614221190020847, 64)
     assert h == imha.Hash(18369614221190020847, 64)
     assert h.bin() == "1111111011101101111110101100111011001010111111101011111011101111"
@@ -87,21 +89,32 @@ def test_hash_18369614221190020847_64():
     assert str(h) == h.hex()
 
 
-def test_hash_sub():
+def test_hash_sub() -> None:
     distance = imha.Hash(128, 8) - imha.Hash(0, 8)
     assert distance == 1
 
 
-def test_hash_sub_different_type():
+@pytest.mark.parametrize("other", [1, imha.Hash(0, 8), imha.Hash(1, 4)])
+def test_hash_neq(other: Any) -> None:
+    assert imha.Hash(1, 8) != other
+
+
+def test_hash_sub_different_type() -> None:
     with pytest.raises(TypeError, match="other must be a hash object"):
-        imha.Hash(128, 8) - b"\x00"
+        imha.Hash(128, 8) - b"\x00"  # type: ignore[operator]
 
 
-def test_hash_sub_different_len():
+def test_hash_sub_different_len() -> None:
     with pytest.raises(ValueError, match="hash objects must be of the same length"):
         imha.Hash(128, 8) - imha.Hash(0, 4)
 
 
-def test_hash_negative_value():
+def test_hash_invalid_value() -> None:
     with pytest.raises(ValueError, match="value must be >= 0"):
         imha.Hash(-1, 8)
+
+
+@pytest.mark.parametrize("len_", range(-1, 1))
+def test_hash_invalid_len(len_: int) -> None:
+    with pytest.raises(ValueError, match="len_ must be > 0"):
+        imha.Hash(0, len_)
