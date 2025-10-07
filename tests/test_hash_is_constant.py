@@ -15,6 +15,20 @@ def test_average_hash_16(image: Image.Image) -> None:
     assert len(h) == 16
 
 
+def test_average_hash_16_skip_corners(image: Image.Image) -> None:
+    h = imha.average_hash(image, (5, 4), skip_corners=True)
+    assert h.hex() == "f187"
+    assert int(h) == -3705
+    assert len(h) == 16
+
+
+def test_average_hash_128(image: Image.Image) -> None:
+    h = imha.average_hash(image, (12, 11), skip_corners=True)
+    assert h.hex() == "ffffff91f76f006006007cefdffd7fff"
+    assert int(h) == -8717749049120172103059923697665
+    assert len(h) == 128
+
+
 def test_dhash_16(image: Image.Image) -> None:
     h = imha.dhash(image, (5, 4))
     assert h.hex() == "5552"

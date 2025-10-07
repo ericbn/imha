@@ -31,6 +31,7 @@ classifiers = [
 [project.urls]
 Repository = "https://github.com/ericbn/imha.git"
 Issues = "https://github.com/ericbn/imha/issues"
+Changelog = "https://github.com/ericbn/imha/blob/master/CHANGELOG.md"
 
 [dependency-groups]
 dev = [

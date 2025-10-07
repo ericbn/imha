@@ -149,24 +149,39 @@ class Hash:
         return self.hex()
 
 
-def average_hash(image: Image.Image, size: tuple[int, int] = (8, 8)) -> Hash:
+def average_hash(
+    image: Image.Image, size: tuple[int, int] = (8, 8), *, skip_corners: bool = False
+) -> Hash:
     """
     Compute Average Hash.
 
-    Computes hash with width*height bits. See
+    Computes hash with width*height bits. Enabling skip_corners reduces
+    the hash length by 4 bits. This means a 64-bits hash can be
+    generated with size=(8, 8) or a 16-bit hash be generated with either
+    size=(4, 4) or size=(5, 4), skip_corners=True for example. See
     https://www.hackerfactor.com/blog/index.php?/archives/432-Looks-Like-It.html
 
     :param image: Source image.
     :param size: Tuple with width and height to resize the image to.
     (Default value = (8, 8))
+    :param skip_corners: Ignore the four corners.
+    (Default value = False)
     """
     pixels = _reduce(image, size).getdata()
     avg = statistics.fmean(pixels)
     width, height = size
     diff = 0
-    for i in range(width * height):
-        diff = diff << 1 | (pixels[i] > avg)
-    return Hash(diff, width * height)
+    if skip_corners:
+        for y in range(height):
+            for x in range(width):
+                if (x == 0 or x == width - 1) and (y == 0 or y == height - 1):
+                    continue
+                i = x + y * width
+                diff = diff << 1 | (pixels[i] > avg)
+    else:
+        for i in range(width * height):
+            diff = diff << 1 | (pixels[i] > avg)
+    return Hash(diff, (width * height) - (4 if skip_corners else 0))
 
 
 def dhash(
@@ -222,12 +237,14 @@ def dhash_vertical(
     pixels = _reduce(image, size).getdata()
     width, height = size
     diff = 0
-    for y in range(height - 1):
-        for x in range(width):
-            if skip_corners and (
-                (x == 0 or x == width - 1) and (y == 0 or y == height - 2)
-            ):
-                continue
-            i = x + y * width
+    if skip_corners:
+        for y in range(height - 1):
+            for x in range(width):
+                if (x == 0 or x == width - 1) and (y == 0 or y == height - 2):
+                    continue
+                i = x + y * width
+                diff = diff << 1 | (pixels[i + width] > pixels[i])
+    else:
+        for i in range(width * (height - 1)):
             diff = diff << 1 | (pixels[i + width] > pixels[i])
     return Hash(diff, (width * (height - 1)) - (4 if skip_corners else 0))
