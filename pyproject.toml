@@ -5,12 +5,32 @@ build-backend = "uv_build"
 [project]
 name = "imha"
 version = "0.1.0"
-description = "A more constrained and friendlier fork of ImageHash."
-readme = "README.md"
-requires-python = ">=3.10"
 dependencies = [
     "pillow>=9.1.0",
 ]
+requires-python = ">=3.10"
+authors = [
+  {name = "Eric Nielsen"},
+]
+description = "A more constrained and friendlier fork of ImageHash."
+readme = "README.md"
+license = "BSD-2-Clause"
+license-files = ["LICENSE"]
+keywords = ["average hash", "dhash", "image hash", "image hashing", "imagehash"]
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Topic :: Scientific/Engineering :: Image Processing",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
+]
+
+[project.urls]
+Repository = "https://github.com/ericbn/imha.git"
+Issues = "https://github.com/ericbn/imha/issues"
 
 [dependency-groups]
 dev = [
