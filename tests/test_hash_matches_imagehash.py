@@ -1,14 +1,11 @@
-from pathlib import Path
+from __future__ import annotations
 
-import pytest
-from PIL import Image
+from typing import TYPE_CHECKING
 
 import imha
 
-
-@pytest.fixture
-def image() -> Image.Image:
-    return Image.open(Path(__file__).parent / "data" / "imagehash.webp")
+if TYPE_CHECKING:
+    from PIL import Image
 
 
 def test_average_hash(image: Image.Image) -> None:

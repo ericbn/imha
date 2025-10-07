@@ -1,15 +1,15 @@
 from __future__ import annotations
 
-from pathlib import Path
 from typing import TYPE_CHECKING
 
 import pytest
-from PIL import Image
 
 import imha
 
 if TYPE_CHECKING:
     from collections.abc import Callable
+
+    from PIL import Image
 
 FUNC_PARAMS = [
     pytest.param(imha.average_hash, id="average_hash"),
@@ -19,10 +19,6 @@ FUNC_PARAMS = [
 
 
 @pytest.fixture
-def image() -> Image.Image:
-    return Image.open(Path(__file__).parent / "data" / "imagehash.webp")
-
-
 @pytest.mark.parametrize("func", FUNC_PARAMS)
 def test_hash_function(
     func: Callable[[Image.Image], imha.Hash], image: Image.Image
