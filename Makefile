@@ -8,10 +8,8 @@ $(VENVDIR): .python-version
 venv: | $(VENVDIR)
 	@uv sync
 
-.git/hooks/%: $(VENVDIR)/bin/pre-commit | venv
-	@$(VENVDIR)/bin/pre-commit install --hook-type $(@F)
-
-git-hooks: .git/hooks/pre-commit
+git-hooks:
+	@prek install
 
 test: $(VENVDIR)/bin/pytest | venv
 	@$(VENVDIR)/bin/pytest -vv

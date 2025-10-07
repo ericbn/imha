@@ -37,7 +37,6 @@ Changelog = "https://github.com/ericbn/imha/blob/master/CHANGELOG.md"
 dev = [
     "black",
     "mypy",
-    "pre-commit",
     "pytest",
     "ruff",
 ]
