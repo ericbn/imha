@@ -1,5 +1,4 @@
-"""
-imha, a more constrained and friendlier fork of ImageHash.
+"""imha, a more constrained and friendlier fork of ImageHash.
 
 Copyright (c) 2013, Christopher J Pickett
 Copyright (c) 2013-2025, Johannes Buchner
@@ -41,8 +40,7 @@ def _reduce(image: Image.Image, size: tuple[int, int]) -> Image.Image:
 
 
 class Hash:
-    r"""
-    Represents a hash object.
+    r"""Represents a hash object.
 
     The hash value can be converted to various types and representations
     using the built-in functions and provided methods. The hamming
@@ -76,11 +74,11 @@ class Hash:
     __slots__ = ["_len", "_value"]
 
     def __init__(self, value: int, len_: int) -> None:
-        """
-        Create hash object.
+        """Create hash object.
 
-        :param value: The hash as an unsigned integer value.
-        :param len_: The hash length in bits.
+        Args:
+            value: The hash as an unsigned integer value.
+            len_: The hash length in bits.
         """
         if value < 0:
             msg = "value must be >= 0"
@@ -152,8 +150,7 @@ class Hash:
 def average_hash(
     image: Image.Image, size: tuple[int, int] = (8, 8), *, skip_corners: bool = False
 ) -> Hash:
-    """
-    Compute Average Hash.
+    """Compute Average Hash.
 
     Computes hash with width*height bits. Enabling skip_corners reduces
     the hash length by 4 bits. This means a 64-bits hash can be
@@ -161,11 +158,11 @@ def average_hash(
     size=(4, 4) or size=(5, 4), skip_corners=True for example. See
     https://www.hackerfactor.com/blog/index.php?/archives/432-Looks-Like-It.html
 
-    :param image: Source image.
-    :param size: Tuple with width and height to resize the image to.
-    (Default value = (8, 8))
-    :param skip_corners: Ignore the four corners.
-    (Default value = False)
+    Args:
+        image: Source image.
+        size: Tuple with width and height to resize the image to.
+          (default: (8, 8))
+        skip_corners: Ignore the four corners. (default: False)
     """
     pixels = _reduce(image, size).getdata()
     avg = statistics.fmean(pixels)
@@ -187,8 +184,7 @@ def average_hash(
 def dhash(
     image: Image.Image, size: tuple[int, int] = (9, 8), *, skip_corners: bool = False
 ) -> Hash:
-    """
-    Compute Difference Hash by row.
+    """Compute Difference Hash by row.
 
     Computes row hash with (width-1)*height bits. Enabling skip_corners
     reduces the hash length by 4 bits. This means a 64-bits hash can be
@@ -196,11 +192,11 @@ def dhash(
     size=(5, 4) or size=(6, 4), skip_corners=True for example. See
     https://www.hackerfactor.com/blog/index.php?/archives/529-Kind-of-Like-That.html
 
-    :param image: Source image.
-    :param size: Tuple with width and height to resize the image to.
-    (Default value = (9, 8))
-    :param skip_corners: Ignore the four corners.
-    (Default value = False)
+    Args:
+        image: Source image.
+        size: Tuple with width and height to resize the image to.
+          (default: (9, 8))
+        skip_corners: Ignore the four corners. (default: False)
     """
     pixels = _reduce(image, size).getdata()
     width, height = size
@@ -219,8 +215,7 @@ def dhash(
 def dhash_vertical(
     image: Image.Image, size: tuple[int, int] = (8, 9), *, skip_corners: bool = False
 ) -> Hash:
-    """
-    Compute Difference Hash by column.
+    """Compute Difference Hash by column.
 
     Computes col hash with width*(height-1) bits. Enabling skip_corners
     reduces the hash length by 4 bits. This means a 64-bits hash can be
@@ -228,11 +223,11 @@ def dhash_vertical(
     size=(4, 5) or size=(5, 5), skip_corners=True for example. See
     https://www.hackerfactor.com/blog/index.php?/archives/529-Kind-of-Like-That.html
 
-    :param image: Source image.
-    :param size: Tuple with width and height to resize the image to.
-    (Default value = (8, 9))
-    :param skip_corners: Ignore the four corners.
-    (Default value = False)
+    Args:
+        image: Source image.
+        size: Tuple with width and height to resize the image to.
+          (default: (8, 9))
+        skip_corners: Ignore the four corners. (default: False)
     """
     pixels = _reduce(image, size).getdata()
     width, height = size
