@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Final
 
 import pytest
 
@@ -11,14 +11,13 @@ if TYPE_CHECKING:
 
     from PIL import Image
 
-FUNC_PARAMS = [
+FUNC_PARAMS: Final = [
     pytest.param(imha.average_hash, id="average_hash"),
     pytest.param(imha.dhash, id="dhash"),
     pytest.param(imha.dhash_vertical, id="dhash_vertical"),
 ]
 
 
-@pytest.fixture
 @pytest.mark.parametrize("func", FUNC_PARAMS)
 def test_hash_function(
     func: Callable[[Image.Image], imha.Hash], image: Image.Image

@@ -161,7 +161,7 @@ def average_hash(
     Args:
         image: Source image.
         size: Tuple with width and height to resize the image to.
-          (default: (8, 8))
+            (default: (8, 8))
         skip_corners: Ignore the four corners. (default: False)
     """
     pixels = _reduce(image, size).getdata()
@@ -195,7 +195,7 @@ def dhash(
     Args:
         image: Source image.
         size: Tuple with width and height to resize the image to.
-          (default: (9, 8))
+            (default: (9, 8))
         skip_corners: Ignore the four corners. (default: False)
     """
     pixels = _reduce(image, size).getdata()
@@ -226,7 +226,7 @@ def dhash_vertical(
     Args:
         image: Source image.
         size: Tuple with width and height to resize the image to.
-          (default: (8, 9))
+            (default: (8, 9))
         skip_corners: Ignore the four corners. (default: False)
     """
     pixels = _reduce(image, size).getdata()
@@ -243,3 +243,54 @@ def dhash_vertical(
         for i in range(width * (height - 1)):
             diff = diff << 1 | (pixels[i + width] > pixels[i])
     return Hash(diff, (width * (height - 1)) - (4 if skip_corners else 0))
+
+
+def main() -> None:
+    """Command-line script entry point."""
+    import argparse
+    from importlib.metadata import version
+    from pathlib import Path
+
+    func_per_algorithm = {
+        "average_hash": average_hash,
+        "dhash": dhash,
+        "dhash_vertical": dhash_vertical,
+    }
+    attr_per_format = {
+        "bin": "bin",
+        "hex": "hex",
+        "uint": "uint",
+        "int": "__int__",
+    }
+    parser = argparse.ArgumentParser(
+        description="A more constrained and friendlier fork of ImageHash."
+    )
+    parser.add_argument("algorithm", choices=func_per_algorithm)
+    parser.add_argument("file", nargs="+", type=Path)
+    parser.add_argument(
+        "--size",
+        nargs=2,
+        type=int,
+        help="width and height to resize the image to (default: see API Reference)",
+        metavar=("WIDTH", "HEIGHT"),
+    )
+    parser.add_argument(
+        "--skip-corners", action="store_true", help="ignore the four corners"
+    )
+    parser.add_argument(
+        "--format",
+        default="hex",
+        choices=attr_per_format,
+        help="output format (default: hex)",
+    )
+    parser.add_argument(
+        "--version", action="version", version=f"{parser.prog} {version(parser.prog)}"
+    )
+    args = parser.parse_args()
+    func = func_per_algorithm[args.algorithm]
+    attr = attr_per_format[args.format]
+    kwargs = {"skip_corners": args.skip_corners}
+    if args.size is not None:
+        kwargs["size"] = args.size
+    for file in args.file:
+        print(getattr(func(Image.open(file), **kwargs), attr)(), file, sep="  ")
