@@ -3,7 +3,7 @@
 VENVDIR := .venv
 
 $(VENVDIR): .python-version
-	@uv venv --clear --seed
+	@uv venv --clear
 
 venv: | $(VENVDIR)
 	@uv sync

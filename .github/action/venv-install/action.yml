@@ -29,7 +29,7 @@ runs:
     - name: Set up virtualenv
       shell: bash
       run: |
-        [[ ! -d .venv ]] && uv venv --seed
+        [[ ! -d .venv ]] && uv venv
         echo "VIRTUAL_ENV=${PWD}/.venv" >> ${GITHUB_ENV} && \
         echo "${PWD}/.venv/bin" >> ${GITHUB_PATH}
     - name: Install dependencies
