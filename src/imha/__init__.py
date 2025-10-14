@@ -159,7 +159,7 @@ def average_hash(
     https://www.hackerfactor.com/blog/index.php?/archives/432-Looks-Like-It.html
 
     Args:
-        image: Source image.
+        image: Input image.
         size: Tuple with width and height to resize the image to.
             (default: (8, 8))
         skip_corners: Ignore the four corners. (default: False)
@@ -193,7 +193,7 @@ def dhash(
     https://www.hackerfactor.com/blog/index.php?/archives/529-Kind-of-Like-That.html
 
     Args:
-        image: Source image.
+        image: Input image.
         size: Tuple with width and height to resize the image to.
             (default: (9, 8))
         skip_corners: Ignore the four corners. (default: False)
@@ -224,7 +224,7 @@ def dhash_vertical(
     https://www.hackerfactor.com/blog/index.php?/archives/529-Kind-of-Like-That.html
 
     Args:
-        image: Source image.
+        image: Input image.
         size: Tuple with width and height to resize the image to.
             (default: (8, 9))
         skip_corners: Ignore the four corners. (default: False)
@@ -265,13 +265,23 @@ def main() -> None:
     parser = argparse.ArgumentParser(
         description="A more constrained and friendlier fork of ImageHash."
     )
-    parser.add_argument("algorithm", choices=func_per_algorithm)
-    parser.add_argument("file", nargs="+", type=Path)
+    parser.add_argument(
+        "--version", action="version", version=f"{parser.prog} {version(parser.prog)}"
+    )
+    parser.add_argument(
+        "algorithm",
+        choices=func_per_algorithm,
+        help=f"one of: {', '.join(func_per_algorithm)}",
+        metavar="ALGORITHM",
+    )
+    parser.add_argument(
+        "file", nargs="+", type=Path, help="input file(s)", metavar="FILE"
+    )
     parser.add_argument(
         "--size",
         nargs=2,
         type=int,
-        help="width and height to resize the image to (default: see API Reference)",
+        help="dimensions to resize the image to (default: see API Reference)",
         metavar=("WIDTH", "HEIGHT"),
     )
     parser.add_argument(
@@ -281,10 +291,8 @@ def main() -> None:
         "--format",
         default="hex",
         choices=attr_per_format,
-        help="output format (default: hex)",
-    )
-    parser.add_argument(
-        "--version", action="version", version=f"{parser.prog} {version(parser.prog)}"
+        help=f"output format, one of: {', '.join(attr_per_format)} (default: hex)",
+        metavar="FORMAT",
     )
     args = parser.parse_args()
     func = func_per_algorithm[args.algorithm]

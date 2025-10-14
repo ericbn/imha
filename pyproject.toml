@@ -4,7 +4,7 @@ build-backend = "uv_build"
 
 [project]
 name = "imha"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
     "pillow>=9.1.0",
 ]
