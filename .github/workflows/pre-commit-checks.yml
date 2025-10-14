@@ -28,4 +28,4 @@ jobs:
           restore-keys: mypy-cache-${{ steps.mypy-version.outputs.MYPY_VERSION }}-
       - uses: j178/prek-action@v1
         with:
-          prek-version: '0.2.4'
+          prek-version: '0.2.8'
