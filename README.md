@@ -5,9 +5,11 @@ A more constrained and friendlier fork of ImageHash.
 
 imha is constrained to not use numpy and keep dependencies to a minimum. This
 keeps the package simpler and also easier to be installed on limited
-environments. imha also offers more customization for parametrizing the hash
-computation and a better engineered hash representation that can be easily
-converted to different types and representations.
+environments. imha also offers:
+* more customization for parametrizing the hash computation,
+* a better engineered hash representation that can be easily converted to different
+  types and representations
+* and a command line interface.
 
 Usage
 -----
