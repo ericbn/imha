@@ -69,7 +69,7 @@ Goals
 -----
 
 * Generate the same hash values as ImageHash.
-* Require only the pillow package.
+* Require only the Pillow package.
 * Be compatible with currently supported Python versions.
 
 API Reference

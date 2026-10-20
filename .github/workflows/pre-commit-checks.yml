@@ -11,7 +11,7 @@ jobs:
       - name: Install Python virtualenv
         uses: ./.github/action/venv-install
         with:
-          python-version: '3.10'
+          python-version: '3.13'
       - name: Add flake8 annotator
         uses: pr-annotators/flake8-pr-annotator@v1.0.0
       - name: Add mypy annotator

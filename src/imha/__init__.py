@@ -164,7 +164,7 @@ def average_hash(
             (default: (8, 8))
         skip_corners: Ignore the four corners. (default: False)
     """
-    pixels = _reduce(image, size).getdata()
+    pixels = _reduce(image, size).tobytes()
     avg = statistics.fmean(pixels)
     width, height = size
     diff = 0
@@ -198,7 +198,7 @@ def dhash(
             (default: (9, 8))
         skip_corners: Ignore the four corners. (default: False)
     """
-    pixels = _reduce(image, size).getdata()
+    pixels = _reduce(image, size).tobytes()
     width, height = size
     diff = 0
     for y in range(height):
@@ -229,7 +229,7 @@ def dhash_vertical(
             (default: (8, 9))
         skip_corners: Ignore the four corners. (default: False)
     """
-    pixels = _reduce(image, size).getdata()
+    pixels = _reduce(image, size).tobytes()
     width, height = size
     diff = 0
     if skip_corners:
