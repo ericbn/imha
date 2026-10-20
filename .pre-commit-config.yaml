@@ -23,11 +23,11 @@ repos:
       - id: trailing-whitespace
         exclude: (^|/)\.gitignore$
   - repo: https://github.com/abravalheri/validate-pyproject
-    rev: v0.24.1
+    rev: '0.26'
     hooks:
       - id: validate-pyproject
   - repo: https://github.com/bwhmather/ssort
-    rev: 0.15.0
+    rev: 0.17.0
     hooks:
       - id: ssort
   - repo: local
