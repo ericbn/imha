@@ -179,6 +179,9 @@ dev = [
     { name = "pytest" },
     { name = "ruff" },
 ]
+test = [
+    { name = "pytest" },
+]
 
 [package.metadata]
 requires-dist = [{ name = "pillow", specifier = ">=9.1.0" }]
@@ -190,6 +193,7 @@ dev = [
     { name = "pytest" },
     { name = "ruff" },
 ]
+test = [{ name = "pytest" }]
 
 [[package]]
 name = "iniconfig"

@@ -24,7 +24,7 @@ runs:
     - uses: actions/cache/restore@v4
       id: cache-venv-restore
       with:
-        key: venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles(inputs.cache-dependency-path) }}
+        key: venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ inputs.run }}-${{ hashFiles(inputs.cache-dependency-path) }}
         path: .venv
     - name: Set up virtualenv
       shell: bash

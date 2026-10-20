@@ -15,6 +15,7 @@ jobs:
         uses: ./.github/action/venv-install
         with:
           python-version: ${{ matrix.python-version }}
+          run: 'uv sync --no-default-groups --group test'
       - name: Add pytest annotator
         run: |
           uv pip install pytest-github-actions-annotate-failures
